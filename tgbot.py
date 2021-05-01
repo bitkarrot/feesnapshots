@@ -1,0 +1,62 @@
+from telethon import TelegramClient, events, Button
+import yaml
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.getLogger('telethon').setLevel(level=logging.WARNING)
+logger = logging.getLogger(__name__)
+
+
+path  = "./"
+config_file = path + 'config.yml'
+with open(config_file, 'rb') as f:
+    config = yaml.safe_load(f)
+f.close()
+
+
+client = TelegramClient(config["session_name"],
+                        config["api_id"],
+                        config["api_hash"])
+
+
+TOKEN = config['bot_token']
+logger.info(f'Bot Token: {TOKEN}')
+
+# Default to another parse mode
+client.parse_mode = 'html'
+
+
+@client.on(events.NewMessage(pattern='(?i)/start', forwards=False, outgoing=False))
+async def new_handler(event):
+    await event.reply('Hi! Go to /help for instructions')
+
+
+@events.register(events.NewMessage(incoming=True, outgoing=False))
+async def handler(event):
+    input = str(event.raw_text)
+    sender = await event.get_sender()
+    username = sender.username
+    rawtext = event.raw_text
+    print(rawtext)
+    chat = await event.get_chat()
+#    print(f'chat: {chat}')
+    me = await client.get_me()
+    
+    if '/help' in rawtext:
+        
+        # this message goes to the group if called in group
+        # or to the sender if called by sender 
+        await event.reply(" ok starting..." )
+        
+        # the following two messages only go to the sender in DM, not to the group
+        await client.send_message(sender, 'Hello, myself!')
+        await client.send_file(sender, './images/wtf.png')
+    
+        
+
+client.start(bot_token=TOKEN)
+
+with client:
+    client.add_event_handler(handler)
+    logger.info('(Press Ctrl+C to stop this) tg bot')
+    client.run_until_disconnected()
