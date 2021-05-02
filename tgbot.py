@@ -1,9 +1,7 @@
 from telethon import TelegramClient, events, Button
 import yaml
 import logging
-import os
-from datetime import datetime
-import time
+
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logging.getLogger('telethon').setLevel(level=logging.WARNING)
@@ -33,27 +31,23 @@ client.parse_mode = 'html'
 async def new_handler(event):
     await event.reply('Hi! Go to /help for instructions')
 
+import os
+from datetime import datetime
+import time
 
 @events.register(events.NewMessage(incoming=True, outgoing=False))
 async def handler(event):
-    input = str(event.raw_text)
-    sender = await event.get_sender()
-    username = sender.username
+
     rawtext = event.raw_text
-    print(rawtext)
-    chat = await event.get_chat()
-    # print(f'chat: {chat}')
-    me = await client.get_me()
     chat_id = event.chat_id
-    print(f'chatid: {chat_id}')
+    # print(f'chatid: {chat_id}')
     
     if '/test' in rawtext:
         
-        # this message goes to the group if called in group
-        # or to the sender if called by sender 
+        # this message gets sent first as the rest takes a while
         await event.reply(" ok fetching... give me a moment" )
         
-        # use chat_id to send to sender in DM, or group, 
+        # use chat_id to send to sender in DM, or group,
         # wherever the event originated
         wtfmsg = ["<b> whatthefee.io by Felix Weis. </b>\n"
                 "x-axis: confirmation probability,\n", 
