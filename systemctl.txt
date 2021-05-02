@@ -1,3 +1,5 @@
+# systemctl edit --force -l feesnaps
+
 [Unit]
 Description=fee snapshots
 After=network.target
