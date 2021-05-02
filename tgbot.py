@@ -39,20 +39,29 @@ async def handler(event):
     rawtext = event.raw_text
     print(rawtext)
     chat = await event.get_chat()
-#    print(f'chat: {chat}')
+    # print(f'chat: {chat}')
     me = await client.get_me()
+    chat_id = event.chat_id
+    print(f'chatid: {chat_id}')
     
-    if '/help' in rawtext:
+    if '/test' in rawtext:
         
         # this message goes to the group if called in group
         # or to the sender if called by sender 
-        await event.reply(" ok starting..." )
+        await event.reply(" ok fetching... give me a moment" )
         
-        # the following two messages only go to the sender in DM, not to the group
-        await client.send_message(sender, 'Hello, myself!')
-        await client.send_file(sender, './images/wtf.png')
+        # use chat_id to send to sender in DM, or group, 
+        # wherever the event originated
+        wtfmsg = ["<b> whatthefee.io by Felix Weis. </b>\n"
+                "x-axis: confirmation probability,\n", 
+                "y-axis: maximum confirmation time \n", 
+                "cell value: sats per bit(pure mining fee)\n"]
+        
+        await client.send_message(chat_id, ''.join(wtfmsg))
+        await client.send_file(chat_id, './images/wtf.png')
     
-        
+        notify = "Please Note: Images updated hourly, not in real time\n"
+        await client.send_message(chat_id, notify)
 
 client.start(bot_token=TOKEN)
 
