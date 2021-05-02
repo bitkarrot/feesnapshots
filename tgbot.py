@@ -42,17 +42,22 @@ async def handler(event):
     
     if '/test' in rawtext:
         
+        wtf_path = './images/wtf.png'
+        
+        if not os.path.exists(wtf_path):
+            print(f'path does not exist: {wtf_path}')
+            return
+
         # this message gets sent first as the rest takes a while
         await event.reply(" ok fetching... give me a moment" )
-        
+
         # use chat_id to send to sender in DM, or group,
         # wherever the event originated
         wtfmsg = ["<b> whatthefee.io by Felix Weis. </b>\n"
-                "x-axis: confirmation probability,\n", 
-                "y-axis: maximum confirmation time \n", 
-                "cell value: sats per bit(pure mining fee)\n"]
+                "x-axis: <b> confirmation probability, </b>\n", 
+                "y-axis: <b> max confirmation time </b> \n", 
+                "cell value: sats per bit (mining fee)\n"]
         
-        wtf_path = './images/wtf.png'
         lastmodified= datetime.fromtimestamp(os.stat(wtf_path).st_mtime)
         lastmod = str(lastmodified).split(".")[0]
         await client.send_message(chat_id, ''.join(wtfmsg))
