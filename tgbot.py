@@ -2,11 +2,9 @@ from telethon import TelegramClient, events, Button
 import yaml
 import logging
 
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logging.getLogger('telethon').setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
-
 
 path  = "./"
 config_file = path + 'config.yml'
