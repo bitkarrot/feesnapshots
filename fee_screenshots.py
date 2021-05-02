@@ -14,7 +14,9 @@ async def attime():
         homedir = os.getcwd()
         print("attempting to remove old versions")
         run1 = subprocess.run(["rm", homedir + "/images/wtf.png"])
-        run2 = subprocess.run(["rm", homedir + "/images/johoe_24.png"])
+        run2 = subprocess.run(["rm", homedir + "/images/johoe_24h.png"])
+        print(f'wtf: {run1} , johoe: {run2}')
+        
         print("starting cron to fetch screenshots")
         res1 = subprocess.call(joecommand, shell = True)
         res2 = subprocess.call(wtfcommand, shell = True)
