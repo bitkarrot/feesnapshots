@@ -13,15 +13,15 @@ async def attime():
         print("attempting to remove old versions")
         run1 = subprocess.run(["rm", "images/wtf.png"])
         run2 = subprocess.run(["rm", "images/johoe_24.png"])
-        if run1.returncode != 1 and run2.returncode != 1:
-            print("starting cron to fetch screenshots")
-            res1 = subprocess.call(joecommand, shell = True)
-            res2 = subprocess.call(wtfcommand, shell = True)
+        #if run1.returncode != 1 and run2.returncode != 1:
+        print("starting cron to fetch screenshots")
+        res1 = subprocess.call(joecommand, shell = True)
+        res2 = subprocess.call(wtfcommand, shell = True)
 
-            if res1 == 0:
-                print("ok geting joehoe chart")
-            if res2 == 0:
-                print("ok getting wtf chart")            
+        if res1 == 0:
+            print("ok geting joehoe chart")
+        if res2 == 0:
+            print("ok getting wtf chart")            
     except Exception as e:
         print(e)
 
