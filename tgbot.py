@@ -1,6 +1,9 @@
 from telethon import TelegramClient, events, Button
 import yaml
 import logging
+import os
+from datetime import datetime
+import time
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logging.getLogger('telethon').setLevel(level=logging.WARNING)
@@ -57,10 +60,13 @@ async def handler(event):
                 "y-axis: maximum confirmation time \n", 
                 "cell value: sats per bit(pure mining fee)\n"]
         
+        wtf_path = './images/wtf.png'
+        lastmodified= datetime.fromtimestamp(os.stat(wtf_path).st_mtime)
+        lastmod = str(lastmodified).split(".")[0]
         await client.send_message(chat_id, ''.join(wtfmsg))
-        await client.send_file(chat_id, './images/wtf.png')
-    
-        notify = "Please Note: Images updated hourly, not in real time\n"
+        await client.send_file(chat_id, wtf_path)
+        curr = str(datetime.fromtimestamp(time.time())).split(".")[0]
+        notify = f"Images updated hourly.\n<b>Last updated:</b> {lastmod}\n<b>Current Time:</b> {curr}"
         await client.send_message(chat_id, notify)
 
 client.start(bot_token=TOKEN)
