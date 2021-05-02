@@ -1,0 +1,16 @@
+[Unit]
+Description=fee snapshots
+After=network.target
+
+[Service]
+WorkingDirectory=/home/octo/feesnapshots
+ExecStart=/home/octo/feesnapshots/env/bin/python3 /home/octo/feesnapshots/fee_screenshots.py
+TimeoutStopSec=10
+Restart=always
+RestartSec=5
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=feesnaps
+
+[Install]
+WantedBy=multi-user.target
