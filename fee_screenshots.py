@@ -1,6 +1,7 @@
 import subprocess
 import aiocron
 import asyncio
+import os
 
 joecommand = "pageres https://jochen-hoenicke.de/queue/#BTC,24h,fee --filename=images/johoe_24h --selector=\'canvas.flot-overlay\'"
 wtfcommand = "pageres https://whatthefee.io/ --filename=images/wtf --selector=\'table.FeeTable\'"
@@ -10,9 +11,10 @@ wtfcommand = "pageres https://whatthefee.io/ --filename=images/wtf --selector=\'
 @aiocron.crontab('* * * * *')
 async def attime():
     try:
+        homedir = os.getcwd()
         print("attempting to remove old versions")
-        run1 = subprocess.run(["rm", "images/wtf.png"])
-        run2 = subprocess.run(["rm", "images/johoe_24.png"])
+        run1 = subprocess.run(["rm", homedir + "/images/wtf.png"])
+        run2 = subprocess.run(["rm", homedir + "/images/johoe_24.png"])
         print("starting cron to fetch screenshots")
         res1 = subprocess.call(joecommand, shell = True)
         res2 = subprocess.call(wtfcommand, shell = True)
