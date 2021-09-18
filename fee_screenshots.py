@@ -4,6 +4,8 @@ import asyncio
 import os
 import logging
 from os.path import exists
+from subprocess import check_output
+
 
 logging.basicConfig(filename='feesnaps.log', level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logging.getLogger('feelogger').setLevel(level=logging.WARNING)
@@ -13,8 +15,8 @@ joecommand = "pageres https://jochen-hoenicke.de/queue/#BTC,24h,fee --filename=i
 wtfcommand = "pageres https://whatthefee.io/ --filename=images/wtf --selector=\'table.FeeTable\'"
 
 #### cron job ####
-#@aiocron.crontab('0 * * * *')
-@aiocron.crontab('* * * * *')
+@aiocron.crontab('0 * * * *')
+#@aiocron.crontab('* * * * *')
 async def attime():
     try:
         homedir = os.getcwd()
@@ -32,13 +34,12 @@ async def attime():
             logger.info(f'johoe: {run2}')
 
         logger.info("starting job to fetch screenshots")
-        res1 = subprocess.call(joecommand, shell = True)
-        res2 = subprocess.call(wtfcommand, shell = True)
 
-        if res1 == 0:
-            logger.info("ok geting joehoe chart")
-        if res2 == 0:
-            logger.info("ok getting wtf chart")
+        res = check_output(['node', './getimages.js'])
+        print(res)
+        
+        if res == 0:
+            logger.info("ok calling node.js")
             
     except Exception as e:
             logger.info(e)
