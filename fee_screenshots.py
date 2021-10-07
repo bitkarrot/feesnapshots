@@ -39,7 +39,7 @@ async def attime():
             logger.info(f'johoe: {run2}')
         if sats_file_exists:            
             run3 = subprocess.run(["rm", sats])        
-            logger.info(f'johoe: {run3}')
+            logger.info(f'sats: {run3}')
 
         logger.info("starting job to fetch screenshots")
 
