@@ -11,8 +11,10 @@ logging.basicConfig(filename='feesnaps.log', level=logging.INFO, format='%(ascti
 logging.getLogger('feelogger').setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 
-joecommand = "pageres https://jochen-hoenicke.de/queue/#BTC,24h,fee --filename=images/johoe_24h --selector=\'canvas.flot-overlay\'"
-wtfcommand = "pageres https://whatthefee.io/ --filename=images/wtf --selector=\'table.FeeTable\'"
+# old, deprecated
+#joecommand = "pageres https://jochen-hoenicke.de/queue/#BTC,24h,fee --filename=images/johoe_24h --selector=\'canvas.flot-overlay\'"
+#wtfcommand = "pageres https://whatthefee.io/ --filename=images/wtf --selector=\'table.FeeTable\'"
+
 
 #### cron job ####
 @aiocron.crontab('0 * * * *')
@@ -25,6 +27,9 @@ async def attime():
         wtf_file_exists = exists(wtf)
         johoe = homedir + "/images/johoe_24h.png"
         johoe_file_exists = exists(johoe)
+        sats = homedir + "/images/sats.png"
+        sats_file_exists = exists(sats)
+
 
         if wtf_file_exists:                    
             run1 = subprocess.run(["rm", wtf])
@@ -32,6 +37,9 @@ async def attime():
         if johoe_file_exists:            
             run2 = subprocess.run(["rm", johoe])        
             logger.info(f'johoe: {run2}')
+        if sats_file_exists:            
+            run3 = subprocess.run(["rm", sats])        
+            logger.info(f'johoe: {run3}')
 
         logger.info("starting job to fetch screenshots")
 
